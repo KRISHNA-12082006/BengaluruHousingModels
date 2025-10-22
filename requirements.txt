@@ -7,4 +7,5 @@ xgboost
 lightgbm
 catboost
 pickle
+joblib
 gunicorn
