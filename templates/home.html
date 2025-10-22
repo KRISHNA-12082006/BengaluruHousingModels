@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-wrapper">
+  <div class="page-header">
+    <h1><i class="fas fa-home"></i> Bengaluru House Price Predictor</h1>
+    <p>Welcome! Explore price predictions, analysis, and model performance for Bengaluru housing data.</p>
+  </div>
+  <div class="row">
+    <div class="col-md-6 metric-card">
+      <h3>Best Model</h3>
+      <p>{{ metadata['best_model'] }}</p>
+    </div>
+    <div class="col-md-6 metric-card">
+      <h3>Dataset Size</h3>
+      <p>{{ metadata['rows'] }} entries</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 plot-container text-center">
+      <h4><i class="fas fa-chart-bar"></i> Models Performance Overview</h4>
+      <img src='static/plots/model_comparison.png' alt="Model Overview" class="img-fluid">
+    </div>
+  </div>
+</div>
+{% endblock %}

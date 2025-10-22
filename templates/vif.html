@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-wrapper">
+  <div class="page-header">
+    <h1><i class="fas fa-calculator"></i> VIF Analysis</h1>
+    <p>Variance Inflation Factor (VIF) to assess multicollinearity in features.</p>
+  </div>
+  <div class="row">
+    <div class="col-12 plot-container">
+      <h4>VIF per Feature</h4>
+      <img src='static/plots/vif_analysis.png' alt="VIF Plot" class="img-fluid">
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12">
+      <a href="{{ url_for('eda') }}" class="btn btn-custom me-2"><i class="fas fa-arrow-left"></i> Back to EDA</a>
+      <a href="{{ url_for('models') }}" class="btn btn-custom"><i class="fas fa-arrow-right"></i> View Model Performance</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

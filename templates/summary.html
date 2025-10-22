@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-wrapper">
+  <div class="page-header">
+    <h1><i class="fas fa-file-alt"></i> Analysis Summary</h1>
+    <p>Key findings and insights from the Bengaluru house price analysis.</p>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-info" role="alert">
+        {{ summary_text | replace('\n', '<br>') | safe }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

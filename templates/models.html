@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-wrapper">
+  <div class="page-header">
+    <h1><i class="fas fa-robot"></i> Model Performance Comparison</h1>
+    <p>Compare all trained models and view detailed performance metrics.</p>
+  </div>
+  <div class="row">
+    <div class="col-12 plot-container">
+      <h4>Performance Metrics</h4>
+      <img src='static/plots/prediction_plots.png' alt="Model Scores" class="img-fluid">
+    </div>
+    <div class="col-12 mt-4">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Score</th>
+            <th>Best?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for model, score in model_results.items() %}
+          <tr {% if model == bestmodel %}class="table-success"{% endif %}>
+            <td>{{ model }}</td>
+            <td>{{ score }}</td>
+            <td>{% if model == best_model %}<span class="badge bg-success">Best</span>{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

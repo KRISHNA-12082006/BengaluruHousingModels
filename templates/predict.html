@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .prediction-form {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+    
+    .result-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 15px;
+        margin-top: 30px;
+        display: none;
+    }
+    
+    .result-card h2 {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    
+    .comparison-table {
+        background: white;
+        color: #333;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+    
+    .loading {
+        display: none;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .loading i {
+        font-size: 3rem;
+        color: var(--secondary-color);
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="page-header">
+        <h1><i class="fas fa-magic"></i> House Price Prediction</h1>
+        <p>Enter property details to get instant price estimates</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="prediction-form">
+                <form id="predictionForm">
+                    <div class="mb-3">
+                        <label for="location" class="form-label">
+                            <i class="fas fa-map-marker-alt"></i> Location
+                        </label>
+                        <select class="form-select" id="location" name="location" required>
+                            <option value="">Select Location</option>
+                            {% for loc in metadata.locations[:100] %}
+                            <option value="{{ loc }}">{{ loc }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="area_type" class="form-label">
+                            <i class="fas fa-building"></i> Area Type
+                        </label>
+                        <select class="form-select" id="area_type" name="area_type" required>
+                            <option value="">Select Area Type</option>
+                            {% for at in metadata.area_types %}
+                            <option value="{{ at }}">{{ at }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="size" class="form-label">
+                            <i class="fas fa-bed"></i> Size (BHK)
+                        </label>
+                        <select class="form-select" id="size" name="size" required>
+                            <option value="">Select Size</option>
+                            <option value="1 BHK">1 BHK</option>
+                            <option value="2 BHK">2 BHK</option>
+                            <option value="3 BHK">3 BHK</option>
+                            <option value="4 BHK">4 BHK</option>
+                            <option value="5 BHK">5 BHK</option>
+                            <option value="6 BHK">6 BHK</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="total_sqft" class="form-label">
+                            <i class="fas fa-ruler-combined"></i> Total Square Feet
+                        </label>
+                        <input type="number" class="form-control" id="total_sqft" 
+                               name="total_sqft" required min="300" max="10000" step="10"
+                               placeholder="e.g., 1200">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="bath" class="form-label">
+                                <i class="fas fa-bath"></i> Bathrooms
+                            </label>
+                            <input type="number" class="form-control" id="bath" 
+                                   name="bath" required min="1" max="10" value="2">
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="balcony" class="form-label">
+                                <i class="fas fa-door-open"></i> Balconies
+                            </label>
+                            <input type="number" class="form-control" id="balcony" 
+                                   name="balcony" required min="0" max="5" value="1">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="model" class="form-label">
+                            <i class="fas fa-robot"></i> Select Model
+                        </label>
+                        <select class="form-select" id="model" name="model">
+                            {% for model in metadata.model_list %}
+                            <option value="{{ model }}" {% if model == best_model %}selected{% endif %}>
+                                {{ model }}{% if model == best_model %} (Best){% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-custom btn-lg">
+                            <i class="fas fa-calculator"></i> Predict Price
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="loading" id="loading">
+                <i class="fas fa-spinner"></i>
+                <p class="mt-3">Calculating price...</p>
+            </div>
+
+            <div class="result-card" id="resultCard">
+                <h4><i class="fas fa-chart-line"></i> Predicted Price</h4>
+                <h2 id="predictedPrice">₹0.00 Lakhs</h2>
+                <p id="modelUsed">Model: -</p>
+
+                <div class="comparison-table">
+                    <h5 class="text-dark mb-3">
+                        <i class="fas fa-balance-scale"></i> All Models Comparison
+                    </h5>
+                    <table class="table table-sm" id="comparisonTable">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Predicted Price (Lakhs)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparisonBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-3 text-light">
+                    <h6><i class="fas fa-info-circle"></i> Input Summary</h6>
+                    <div id="inputSummary"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const loading = document.getElementById('loading');
+    const resultCard = document.getElementById('resultCard');
+    
+    loading.style.display = 'block';
+    resultCard.style.display = 'none';
+    
+    const formData = {
+        location: document.getElementById('location').value,
+        area_type: document.getElementById('area_type').value,
+        size: document.getElementById('size').value,
+        total_sqft: document.getElementById('total_sqft').value,
+        bath: document.getElementById('bath').value,
+        balcony: document.getElementById('balcony').value,
+        model: document.getElementById('model').value
+    };
+    
+    try {
+        const response = await fetch('/api/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            document.getElementById('predictedPrice').textContent = 
+                `₹${data.prediction} Lakhs`;
+            document.getElementById('modelUsed').textContent = 
+                `Model: ${data.model_used}`;
+            
+            // Fill comparison table
+            const tbody = document.getElementById('comparisonBody');
+            tbody.innerHTML = '';
+            
+            for (const [model, price] of Object.entries(data.all_predictions)) {
+                const row = document.createElement('tr');
+                if (model === data.model_used) {
+                    row.className = 'table-primary';
+                }
+                row.innerHTML = `
+                    <td><strong>${model}</strong></td>
+                    <td>₹${price}</td>
+                `;
+                tbody.appendChild(row);
+            }
+            
+            // Fill input summary
+            const summary = data.input_summary;
+            document.getElementById('inputSummary').innerHTML = `
+                <small>
+                    <strong>Location:</strong> ${summary.location}<br>
+                    <strong>Area Type:</strong> ${summary.area_type}<br>
+                    <strong>Size:</strong> ${summary.size}<br>
+                    <strong>Total Sqft:</strong> ${summary.total_sqft}<br>
+                    <strong>Bathrooms:</strong> ${summary.bathrooms}<br>
+                    <strong>Balconies:</strong> ${summary.balconies}
+                </small>
+            `;
+            
+            loading.style.display = 'none';
+            resultCard.style.display = 'block';
+            
+            // Smooth scroll to result
+            resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+            alert('Error: ' + data.error);
+            loading.style.display = 'none';
+        }
+    } catch (error) {
+        alert('Error making prediction: ' + error.message);
+        loading.style.display = 'none';
+    }
+});
+</script>
+{% endblock %}
