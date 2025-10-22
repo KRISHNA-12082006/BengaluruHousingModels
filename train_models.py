@@ -3,6 +3,7 @@ import numpy as np
 import re
 import os
 import pickle
+import joblib
 import json
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -608,7 +609,7 @@ def main():
     for name, model in models.items():
         filename = f"{model_dir}{name}.pkl"
         with open(filename, "wb") as f:
-            pickle.dump({'model': model, 'preprocessor': preprocessor}, f)
+            joblib.dump({'model': model, 'preprocessor': preprocessor}, f, compress=3)
         print(f"✅ Saved {name} → {filename}")
     
     # Save Results
