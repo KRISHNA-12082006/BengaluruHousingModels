@@ -2,3 +2,44 @@
 BENGALURU HOUSE PRICE PREDICTION - ANALYSIS SUMMARY
 ================================================================================
 
+📊 DATASET OVERVIEW
+--------------------------------------------------------------------------------
+Total Rows: 13320
+Total Columns: 9
+
+💰 PRICE STATISTICS
+--------------------------------------------------------------------------------
+Mean: 112.57 Lakhs
+Median: 72.00 Lakhs
+Std: 148.97 Lakhs
+Min: 8.00 Lakhs
+Max: 3600.00 Lakhs
+
+📐 VIF ANALYSIS (Top 10 Features)
+--------------------------------------------------------------------------------
+society: 543.65 ⚠️ HIGH
+location: 542.06 ⚠️ HIGH
+bath: 27.32 ⚠️ HIGH
+size_num: 26.61 ⚠️ HIGH
+bath_per_size: 6.21 ⚡ MODERATE
+area_type_Super built-up  Area: 4.87 ✅ LOW
+area_type_Plot  Area: 1.87 ✅ LOW
+balcony: 1.12 ✅ LOW
+area_type_Carpet  Area: 1.04 ✅ LOW
+total_sqft_num: 1.00 ✅ LOW
+
+🤖 MODEL PERFORMANCE
+--------------------------------------------------------------------------------
+Model                Test RMSE    Test MAE     Test R²   
+--------------------------------------------------------------------------------
+LinearRegression     59.42        21.2         -1.013    
+RidgeRegression      59.5         21.21        -1.019    
+RandomForest         18.49        10.88        0.805     
+GradientBoosting     20.86        13.23        0.752     
+XGBoost              18.7         11.19        0.801     
+LightGBM             18.72        11.55        0.8       
+CatBoost             18.45        11.32        0.806     
+
+================================================================================
+🏆 BEST MODEL: CatBoost (R² = 0.806)
+================================================================================

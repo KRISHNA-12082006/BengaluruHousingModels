@@ -80,27 +80,27 @@
         },
         {
             "Feature": "bath",
-            "VIF": 27.316027506355027
+            "VIF": 27.31602750635536
         },
         {
             "Feature": "size_num",
-            "VIF": 26.606190218402755
+            "VIF": 26.60619021840291
         },
         {
             "Feature": "bath_per_size",
-            "VIF": 6.206590294831676
+            "VIF": 6.206590294831612
         },
         {
             "Feature": "area_type_Super built-up  Area",
-            "VIF": 4.871708429298705
+            "VIF": 4.871708429298708
         },
         {
             "Feature": "area_type_Plot  Area",
-            "VIF": 1.8698009626869465
+            "VIF": 1.869800962686946
         },
         {
             "Feature": "balcony",
-            "VIF": 1.1221590727013266
+            "VIF": 1.1221590727013344
         },
         {
             "Feature": "area_type_Carpet  Area",
@@ -108,7 +108,7 @@
         },
         {
             "Feature": "total_sqft_num",
-            "VIF": 1.002225456668608
+            "VIF": 1.002225456668606
         }
     ],
     "model_results": {
@@ -129,11 +129,11 @@
             "Test_R2": -1.019
         },
         "RandomForest": {
-            "Train_RMSE": 8.41,
-            "Test_RMSE": 18.51,
-            "Train_MAE": 4.78,
+            "Train_RMSE": 8.61,
+            "Test_RMSE": 18.49,
+            "Train_MAE": 4.97,
             "Test_MAE": 10.88,
-            "Train_R2": 0.964,
+            "Train_R2": 0.962,
             "Test_R2": 0.805
         },
         "GradientBoosting": {
