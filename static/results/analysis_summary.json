@@ -1,0 +1,172 @@
+{
+    "eda_summary": {
+        "total_rows": 13320,
+        "total_columns": 9,
+        "missing_values": {
+            "area_type": 0,
+            "availability": 0,
+            "location": 1,
+            "size": 16,
+            "society": 5502,
+            "total_sqft": 0,
+            "bath": 73,
+            "balcony": 609,
+            "price": 0
+        },
+        "data_types": {
+            "area_type": "object",
+            "availability": "object",
+            "location": "object",
+            "size": "object",
+            "society": "object",
+            "total_sqft": "object",
+            "bath": "float64",
+            "balcony": "float64",
+            "price": "float64"
+        },
+        "price_stats": {
+            "mean": 112.5656265015015,
+            "median": 72.0,
+            "std": 148.97167376967403,
+            "min": 8.0,
+            "max": 3600.0
+        },
+        "correlations": {
+            "price": {
+                "price": 1.0,
+                "total_sqft_num": 0.04899500286735828,
+                "size_num": 0.39829196328329075,
+                "bath": 0.4563451034635018,
+                "balcony": 0.12035530938067707
+            },
+            "total_sqft_num": {
+                "price": 0.04899500286735828,
+                "total_sqft_num": 1.0,
+                "size_num": 0.054269509041898326,
+                "bath": 0.053099932942358354,
+                "balcony": 0.006550894176711926
+            },
+            "size_num": {
+                "price": 0.39829196328329075,
+                "total_sqft_num": 0.054269509041898326,
+                "size_num": 1.0,
+                "bath": 0.8984077460056272,
+                "balcony": 0.1872914989161243
+            },
+            "bath": {
+                "price": 0.4563451034635018,
+                "total_sqft_num": 0.053099932942358354,
+                "size_num": 0.8984077460056272,
+                "bath": 1.0,
+                "balcony": 0.20420111112951336
+            },
+            "balcony": {
+                "price": 0.12035530938067707,
+                "total_sqft_num": 0.006550894176711926,
+                "size_num": 0.1872914989161243,
+                "bath": 0.20420111112951336,
+                "balcony": 1.0
+            }
+        }
+    },
+    "vif_analysis": [
+        {
+            "Feature": "society",
+            "VIF": 543.6528687346572
+        },
+        {
+            "Feature": "location",
+            "VIF": 542.0580603646532
+        },
+        {
+            "Feature": "bath",
+            "VIF": 27.316027506355027
+        },
+        {
+            "Feature": "size_num",
+            "VIF": 26.606190218402755
+        },
+        {
+            "Feature": "bath_per_size",
+            "VIF": 6.206590294831676
+        },
+        {
+            "Feature": "area_type_Super built-up  Area",
+            "VIF": 4.871708429298705
+        },
+        {
+            "Feature": "area_type_Plot  Area",
+            "VIF": 1.8698009626869465
+        },
+        {
+            "Feature": "balcony",
+            "VIF": 1.1221590727013266
+        },
+        {
+            "Feature": "area_type_Carpet  Area",
+            "VIF": 1.039094802591527
+        },
+        {
+            "Feature": "total_sqft_num",
+            "VIF": 1.002225456668608
+        }
+    ],
+    "model_results": {
+        "LinearRegression": {
+            "Train_RMSE": 34.91,
+            "Test_RMSE": 59.42,
+            "Train_MAE": 21.59,
+            "Test_MAE": 21.2,
+            "Train_R2": 0.375,
+            "Test_R2": -1.013
+        },
+        "RidgeRegression": {
+            "Train_RMSE": 34.93,
+            "Test_RMSE": 59.5,
+            "Train_MAE": 21.6,
+            "Test_MAE": 21.21,
+            "Train_R2": 0.374,
+            "Test_R2": -1.019
+        },
+        "RandomForest": {
+            "Train_RMSE": 8.41,
+            "Test_RMSE": 18.51,
+            "Train_MAE": 4.78,
+            "Test_MAE": 10.88,
+            "Train_R2": 0.964,
+            "Test_R2": 0.805
+        },
+        "GradientBoosting": {
+            "Train_RMSE": 21.19,
+            "Test_RMSE": 20.86,
+            "Train_MAE": 13.54,
+            "Test_MAE": 13.23,
+            "Train_R2": 0.77,
+            "Test_R2": 0.752
+        },
+        "XGBoost": {
+            "Train_RMSE": 13.39,
+            "Test_RMSE": 18.7,
+            "Train_MAE": 8.26,
+            "Test_MAE": 11.19,
+            "Train_R2": 0.908,
+            "Test_R2": 0.801
+        },
+        "LightGBM": {
+            "Train_RMSE": 17.52,
+            "Test_RMSE": 18.72,
+            "Train_MAE": 10.94,
+            "Test_MAE": 11.55,
+            "Train_R2": 0.843,
+            "Test_R2": 0.8
+        },
+        "CatBoost": {
+            "Train_RMSE": 16.61,
+            "Test_RMSE": 18.45,
+            "Train_MAE": 10.37,
+            "Test_MAE": 11.32,
+            "Train_R2": 0.859,
+            "Test_R2": 0.806
+        }
+    }
+}

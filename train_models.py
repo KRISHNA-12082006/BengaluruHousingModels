@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import re
 import os
-import pickle
 import joblib
 import json
 import matplotlib.pyplot as plt
@@ -617,11 +616,11 @@ def main():
     os.makedirs(results_dir, exist_ok=True)
     
     with open(f"{results_dir}model_results.pkl", "wb") as f:
-        pickle.dump(results, f)
+        joblib.dump(results, f)
     print(f"✅ Saved model results → {results_dir}model_results.pkl")
     
     with open(f"{results_dir}predictions.pkl", "wb") as f:
-        pickle.dump(predictions, f)
+        joblib.dump(predictions, f)
     print(f"✅ Saved predictions → {results_dir}predictions.pkl")
     
     # Save Summary

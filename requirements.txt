@@ -1,11 +1,12 @@
-flask
+Flask
+joblib
 pandas
 numpy
+matplotlib
+seaborn
 scikit-learn
 category_encoders
+statsmodels
 xgboost
 lightgbm
 catboost
-pickle
-joblib
-gunicorn

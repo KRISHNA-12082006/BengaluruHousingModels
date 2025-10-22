@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-import pickle
+import joblib
 import json
 import numpy as np
 import pandas as pd
@@ -14,12 +14,12 @@ with open('static/results/metadata.json', 'r') as f:
 
 # Load model results
 with open('static/results/model_results.pkl', 'rb') as f:
-    model_results = pickle.load(f)
+    model_results = joblib.load(f)
 
 # Load the best model
 best_model_name = metadata['best_model']
 with open(f'saved_models/{best_model_name}.pkl', 'rb') as f:
-    best_model_data = pickle.load(f)
+    best_model_data = joblib.load(f)
     best_model = best_model_data['model']
     preprocessor = best_model_data['preprocessor']
 
@@ -27,7 +27,7 @@ with open(f'saved_models/{best_model_name}.pkl', 'rb') as f:
 all_models = {}
 for model_name in metadata['model_list']:
     with open(f'saved_models/{model_name}.pkl', 'rb') as f:
-        all_models[model_name] = pickle.load(f)
+        all_models[model_name] = joblib.load(f)
 
 
 @app.route('/')
